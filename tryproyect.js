@@ -1,3 +1,5 @@
+var Matriz = null;  // Inicialmente, la matriz es nula
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
@@ -7,37 +9,90 @@ function getRandomInt2(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min) + min);
 }
+
 var botonAleatorio = document.getElementById("boton_aleatorio");
-var Matriz = new Array();
+var botonPersonalizado = document.getElementById("boton_personalizado");
+var botonReset = document.getElementById("boton_reset");
 
 botonAleatorio.addEventListener("click", function() {
-   
+    if (Matriz === null) {
+        var filas = getRandomInt2(5, 15);
+        var columnas = getRandomInt2(5, 15);
+        Matriz = generarMatrizAleatoria(filas, columnas);
+        console.log("Matriz Original:");
+        var matrizOriginal = JSON.parse(JSON.stringify(Matriz));
+        console.log(matrizOriginal); 
+        AgregacionDiagonal(); 
+        console.log("Matriz con Diagonal Modificada:");
+        var matrizcondiagonal = JSON.parse(JSON.stringify(Matriz))
+        console.log(matrizcondiagonal); 
+        encontrarMatrizCaminos(Matriz);
+        console.log("Matriz con caminos:")
+        console.log(Matriz)
+        
+     
+    }
+});
 
-    var filas = getRandomInt2(5, 15);
-    var columnas = getRandomInt2(5, 15);
+botonPersonalizado.addEventListener("click", function() {
+    if (Matriz === null) {
+        var filas = prompt("Ingrese el número de filas");
+        var columnas = prompt("Ingrese el número de columnas");
+        Matriz = generarMatrizPersonalizada(filas, columnas);
+        console.log("Matriz Original:");
+        var matrizOriginal = JSON.parse(JSON.stringify(Matriz));
+        console.log(matrizOriginal); 
+        AgregacionDiagonal(); 
+        console.log("Matriz con Diagonal Modificada:");
+        var matrizcondiagonal = JSON.parse(JSON.stringify(Matriz))
+        console.log(matrizcondiagonal); 
+        encontrarMatrizCaminos(Matriz);
+        console.log("Matriz con caminos:")
+        console.log(Matriz)
+        
+    }
+});
 
+botonReset.addEventListener("click", function() {
+    Matriz = null;  // Reiniciar la matriz a nula
+    console.log("Matriz reiniciada");
+});
+
+function generarMatrizAleatoria(filas, columnas) {
+    var Matriz = new Array();
     for (let i = 0; i < filas; i++) {
         Matriz[i] = new Array();
         for (let j = 0; j < columnas; j++) {
             Matriz[i][j] = getRandomInt(2);
         }
     }
+    return Matriz;
+}
 
-    console.log(Matriz); // Imprime la matriz completa en la consola
-});
-
-var botonPersonalizado= document.getElementById("boton_personalizado");
-
-botonPersonalizado.addEventListener("click", function(){
-    var filas = prompt("ingrese el numero de filas")
-    var columnas = prompt("ingrese el numero de columnas ")
-    for(let i= 0; i< filas; i++){
-        Matriz[i]= new Array();
-        for(let j= 0; j< columnas;j++){
-            Matriz[i][j]= prompt(`Ingrese el valor para la posición [${i}][${j}]`)
+function generarMatrizPersonalizada(filas, columnas) {
+    var Matriz = new Array();
+    for (let i = 0; i < filas; i++) {
+        Matriz[i] = new Array();
+        for (let j = 0; j < columnas; j++) {
+            Matriz[i][j] = prompt(`Ingrese el valor para la posición [${i}][${j}]`);
         }
     }
-    
-    console.log(Matriz);
+    return Matriz;
+}
 
-})
+function AgregacionDiagonal() {
+    if (Matriz !== null) {
+        const filas = Matriz.length;
+        const columnas = Matriz[0].length;
+
+        for (let i = 0; i < filas; i++) {
+            for (let j = 0; j < columnas; j++) {
+                if (i === j) {
+                    Matriz[i][j] = 1; // Establece la diagonal principal a 1
+                }
+            }
+        }
+    } else {
+        console.log("No hay una matriz registrada.");
+    }
+}
