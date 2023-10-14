@@ -96,3 +96,27 @@ function AgregacionDiagonal() {
         console.log("No hay una matriz registrada.");
     }
 }
+
+function encontrarMatrizCaminos(matriz) {
+    const n = matriz.length; // Número de nodos en el grafo
+
+    // Inicializa la matriz de caminos con la misma estructura que la matriz original.
+    const matrizCaminos = new Array(n);
+    for (let i = 0; i < n; i++) {
+        matrizCaminos[i] = new Array(n);
+        for (let j = 0; j < n; j++) {
+            matrizCaminos[i][j] = matriz[i][j];
+        }
+    }
+
+    // Aplica el algoritmo de Warshall para encontrar los caminos mínimos.
+    for (let k = 0; k < n; k++) {
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+                matrizCaminos[i][j] = matrizCaminos[i][j] || (matrizCaminos[i][k] && matrizCaminos[k][j]);
+            }
+        }
+    }
+
+    return matrizCaminos;
+}
