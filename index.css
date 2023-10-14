@@ -1,4 +1,15 @@
-.ordenar{
+
+/*.programa button{
+    overflow: visible   ;
+    width: 250px;
+    height: 150px;
+    font-size: 40px;
+    margin: 0 10px;
+    border-radius: 25px;
+    margin-left: 75px;
+    font-family: "Segoe UI", sans-serif;
+  }*/
+  .ordenar{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,4 +46,3 @@ div h1{
     font-size: 70px;
     font-family: fantasy;
 }
-  
